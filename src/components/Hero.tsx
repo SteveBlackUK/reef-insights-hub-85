@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Waves } from "lucide-react";
 import heroReef from "@/assets/hero-reef.jpg";
+import logo from "@/assets/logo.png";
 
 const Hero = () => {
   return (
@@ -19,7 +19,7 @@ const Hero = () => {
       {/* Nav */}
       <nav className="relative z-10 flex items-center justify-between px-6 py-5 md:px-12">
         <div className="flex items-center gap-2">
-          <Waves className="h-7 w-7 text-teal-glow" />
+          <img src={logo} alt="Reef Data Hub logo" className="h-8 w-8" />
           <span className="font-heading text-xl font-bold text-primary-foreground">Reef Data Hub</span>
         </div>
         <div className="hidden items-center gap-8 md:flex">

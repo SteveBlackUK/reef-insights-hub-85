@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Waves } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const CTA = () => (
   <section id="cta" className="relative overflow-hidden gradient-ocean px-6 py-24 md:px-12">
@@ -32,7 +32,7 @@ const Footer = () => (
   <footer className="border-t border-border bg-background px-6 py-10 md:px-12">
     <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 md:flex-row">
       <div className="flex items-center gap-2">
-        <Waves className="h-5 w-5 text-primary" />
+        <img src={logo} alt="Reef Data Hub logo" className="h-6 w-6" />
         <span className="font-heading text-sm font-semibold text-foreground">Reef Data Hub</span>
       </div>
       <p className="text-xs text-muted-foreground">© 2026 Reef Data Hub. All rights reserved.</p>
