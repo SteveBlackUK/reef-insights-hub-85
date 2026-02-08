@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import logo from "@/assets/logo.png";
+import logo from "@/assets/logo-bubbles3.png";
 
 const CTA = () => (
   <section id="cta" className="relative overflow-hidden gradient-ocean px-6 py-24 md:px-12">
