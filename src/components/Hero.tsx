@@ -18,8 +18,8 @@ const Hero = () => {
 
       {/* Nav */}
       <nav className="relative z-10 flex items-center justify-between px-6 py-5 md:px-12">
-        <div className="flex items-center gap-2">
-          <img src={logo} alt="Reef Data Hub logo" className="h-8 w-8" />
+        <div className="flex items-center gap-0.5">
+          <img src={logo} alt="Reef Data Hub logo" className="h-8 w-8 -mr-0.5" />
           <span className="font-heading text-xl font-bold text-primary-foreground">Reef Data Hub</span>
         </div>
         <div className="hidden items-center gap-8 md:flex">

@@ -31,8 +31,8 @@ const CTA = () => (
 const Footer = () => (
   <footer className="border-t border-border bg-background px-6 py-10 md:px-12">
     <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 md:flex-row">
-      <div className="flex items-center gap-2">
-        <img src={logo} alt="Reef Data Hub logo" className="h-6 w-6" />
+      <div className="flex items-center gap-0.5">
+        <img src={logo} alt="Reef Data Hub logo" className="h-6 w-6 -mr-0.5" />
         <span className="font-heading text-sm font-semibold text-foreground">Reef Data Hub</span>
       </div>
       <p className="text-xs text-muted-foreground">© 2026 Reef Data Hub. All rights reserved.</p>
