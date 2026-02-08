@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import heroReef from "@/assets/hero-reef.jpg";
-import logo from "@/assets/logo-bubbles3.png";
+import logo from "@/assets/logo-bubbles-final.png";
 
 const Hero = () => {
   return (
