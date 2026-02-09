@@ -2,8 +2,9 @@ import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import ParameterCard from "@/components/dashboard/ParameterCard";
 import TasksSection from "@/components/dashboard/TasksSection";
 import ChartSection from "@/components/dashboard/ChartSection";
+import NotificationWidget from "@/components/dashboard/NotificationWidget";
 import { Button } from "@/components/ui/button";
-import { RefreshCw, Download, Settings } from "lucide-react";
+import { RefreshCw, Download } from "lucide-react";
 
 const parameters = [
   { label: "Temperature", value: "24.8", unit: "°C", status: "ok" as const, sparkline: [24.5, 24.7, 24.9, 24.8, 25.0, 24.7, 24.8], timestamp: "about 22 hours ago" },
@@ -26,6 +27,7 @@ const Dashboard = () => {
         <div className="flex items-center justify-between">
           <h1 className="font-heading text-2xl font-bold text-foreground sm:text-3xl">Dashboard</h1>
           <div className="flex items-center gap-2">
+            <NotificationWidget />
             <Button size="icon" variant="ghost" className="h-9 w-9 text-muted-foreground">
               <Download className="h-4 w-4" />
             </Button>
