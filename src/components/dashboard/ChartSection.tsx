@@ -16,30 +16,30 @@ const tempData = [
 ];
 
 const DateRangeBar = () => (
-  <div className="flex items-center justify-between rounded-xl border border-border bg-card px-5 py-3">
+  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between rounded-xl border border-border bg-card px-3 sm:px-5 py-3">
     <div>
       <p className="text-xs font-medium text-muted-foreground">Date Range</p>
-      <div className="mt-1 flex items-center gap-2 rounded-lg border border-border bg-background px-3 py-1.5 text-sm text-foreground">
-        <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
+      <div className="mt-1 flex items-center gap-2 rounded-lg border border-border bg-background px-3 py-1.5 text-xs sm:text-sm text-foreground">
+        <Calendar className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
         Feb 01, 2026 – Feb 08, 2026
       </div>
     </div>
     <div className="flex items-center gap-2">
       <Switch />
-      <span className="text-sm text-muted-foreground">Show Moving Average</span>
+      <span className="text-xs sm:text-sm text-muted-foreground">Show Moving Average</span>
     </div>
   </div>
 );
 
 const TemperatureChart = () => (
-  <div className="rounded-xl border border-border bg-card p-5">
+  <div className="rounded-xl border border-border bg-card p-3 sm:p-5">
     <div className="flex items-center justify-between">
-      <h3 className="font-heading text-lg font-semibold text-foreground">Temperature</h3>
+      <h3 className="font-heading text-base sm:text-lg font-semibold text-foreground">Temperature</h3>
       <Button size="icon" variant="ghost" className="h-8 w-8 text-muted-foreground">
         <Download className="h-4 w-4" />
       </Button>
     </div>
-    <div className="mt-4 h-56">
+    <div className="mt-3 sm:mt-4 h-48 sm:h-56 -ml-2 -mr-1">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart data={tempData}>
           <defs>
@@ -51,16 +51,17 @@ const TemperatureChart = () => (
           <CartesianGrid strokeDasharray="3 3" stroke="hsl(210, 25%, 88%)" vertical={false} />
           <XAxis
             dataKey="date"
-            tick={{ fontSize: 12, fill: "hsl(210, 20%, 50%)" }}
+            tick={{ fontSize: 11, fill: "hsl(210, 20%, 50%)" }}
             axisLine={false}
             tickLine={false}
           />
           <YAxis
             domain={[24.5, 25.5]}
-            tick={{ fontSize: 12, fill: "hsl(210, 20%, 50%)" }}
+            tick={{ fontSize: 11, fill: "hsl(210, 20%, 50%)" }}
             axisLine={false}
             tickLine={false}
             unit="°C"
+            width={45}
           />
           <Tooltip
             contentStyle={{
@@ -86,7 +87,7 @@ const TemperatureChart = () => (
 
 const ChartSection = () => {
   return (
-    <div className="space-y-4">
+    <div className="space-y-3 sm:space-y-4">
       <DateRangeBar />
       <TemperatureChart />
     </div>
