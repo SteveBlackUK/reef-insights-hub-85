@@ -1,10 +1,12 @@
+import { useState } from "react";
 import {
   Area, AreaChart, CartesianGrid, Legend, Line, LineChart,
   ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from "recharts";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { Download, Calendar } from "lucide-react";
+import { Download, Calendar, Maximize2, Minimize2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 /* ── mock data ── */
 
@@ -61,15 +63,26 @@ const tooltipStyle = {
   fontSize: 12,
 };
 
-const ChartHeader = ({ title, subtitle }: { title: string; subtitle?: string }) => (
+const ChartHeader = ({
+  title, subtitle, expanded, onToggle,
+}: {
+  title: string; subtitle?: string; expanded?: boolean; onToggle?: () => void;
+}) => (
   <div className="flex items-center justify-between mb-3">
     <div className="flex items-baseline gap-2">
       <h3 className="font-heading text-base sm:text-lg font-semibold text-foreground">{title}</h3>
       {subtitle && <span className="text-xs text-muted-foreground">{subtitle}</span>}
     </div>
-    <Button size="icon" variant="ghost" className="h-8 w-8 text-muted-foreground">
-      <Download className="h-4 w-4" />
-    </Button>
+    <div className="flex items-center gap-1">
+      {onToggle && (
+        <Button size="icon" variant="ghost" className="h-8 w-8 text-muted-foreground" onClick={onToggle} title={expanded ? "Collapse" : "Expand"}>
+          {expanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+        </Button>
+      )}
+      <Button size="icon" variant="ghost" className="h-8 w-8 text-muted-foreground">
+        <Download className="h-4 w-4" />
+      </Button>
+    </div>
   </div>
 );
 
@@ -93,9 +106,9 @@ const DateRangeBar = () => (
 
 /* ── Temperature chart ── */
 
-const TemperatureChart = () => (
+const TemperatureChart = ({ expanded, onToggle }: { expanded: boolean; onToggle: () => void }) => (
   <div className={chartCardClass}>
-    <ChartHeader title="Temperature" />
+    <ChartHeader title="Temperature" expanded={expanded} onToggle={onToggle} />
     <div className="h-48 sm:h-56 -ml-2 -mr-1">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart data={tempData}>
@@ -118,9 +131,9 @@ const TemperatureChart = () => (
 
 /* ── pH chart (3 probes) ── */
 
-const PhChart = () => (
+const PhChart = ({ expanded, onToggle }: { expanded: boolean; onToggle: () => void }) => (
   <div className={chartCardClass}>
-    <ChartHeader title="pH" />
+    <ChartHeader title="pH" expanded={expanded} onToggle={onToggle} />
     <div className="h-48 sm:h-56 -ml-2 -mr-1">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={phData}>
@@ -140,9 +153,9 @@ const PhChart = () => (
 
 /* ── Alkalinity chart (2 sources) ── */
 
-const AlkalinityChart = () => (
+const AlkalinityChart = ({ expanded, onToggle }: { expanded: boolean; onToggle: () => void }) => (
   <div className={chartCardClass}>
-    <ChartHeader title="Alkalinity" subtitle="(77 tests)" />
+    <ChartHeader title="Alkalinity" subtitle="(77 tests)" expanded={expanded} onToggle={onToggle} />
     <div className="h-48 sm:h-56 -ml-2 -mr-1">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={alkData}>
@@ -161,9 +174,9 @@ const AlkalinityChart = () => (
 
 /* ── Nitrate + Phosphate (dual Y-axis) ── */
 
-const NutrientChart = () => (
+const NutrientChart = ({ expanded, onToggle }: { expanded: boolean; onToggle: () => void }) => (
   <div className={chartCardClass}>
-    <ChartHeader title="Nitrate + Phosphate" />
+    <ChartHeader title="Nitrate + Phosphate" expanded={expanded} onToggle={onToggle} />
     <div className="h-48 sm:h-56 -ml-2 -mr-1">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={nutrientData}>
@@ -183,16 +196,36 @@ const NutrientChart = () => (
 
 /* ── Main export ── */
 
-const ChartSection = () => (
-  <div className="space-y-3 sm:space-y-4">
-    <DateRangeBar />
-    <TemperatureChart />
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
-      <PhChart />
-      <AlkalinityChart />
+type ChartId = "temp" | "ph" | "alk" | "nutrient";
+
+const ChartSection = () => {
+  const [expanded, setExpanded] = useState<Record<ChartId, boolean>>({
+    temp: false, ph: false, alk: false, nutrient: false,
+  });
+
+  const toggle = (id: ChartId) =>
+    setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
+
+  // Build chart items for the grid
+  const charts: { id: ChartId; node: React.ReactNode }[] = [
+    { id: "temp", node: <TemperatureChart expanded={expanded.temp} onToggle={() => toggle("temp")} /> },
+    { id: "ph", node: <PhChart expanded={expanded.ph} onToggle={() => toggle("ph")} /> },
+    { id: "alk", node: <AlkalinityChart expanded={expanded.alk} onToggle={() => toggle("alk")} /> },
+    { id: "nutrient", node: <NutrientChart expanded={expanded.nutrient} onToggle={() => toggle("nutrient")} /> },
+  ];
+
+  return (
+    <div className="space-y-3 sm:space-y-4">
+      <DateRangeBar />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
+        {charts.map(({ id, node }) => (
+          <div key={id} className={cn(expanded[id] && "lg:col-span-2")}>
+            {node}
+          </div>
+        ))}
+      </div>
     </div>
-    <NutrientChart />
-  </div>
-);
+  );
+};
 
 export default ChartSection;

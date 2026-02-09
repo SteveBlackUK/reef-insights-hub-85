@@ -11,7 +11,7 @@ const navItems = [
   { icon: PenLine, label: "Data Editor" },
   { icon: ListTodo, label: "Tasks" },
   { icon: Cog, label: "Equipment" },
-  { icon: Droplets, label: "Dosing" },
+  { icon: Droplets, label: "Dosing", path: "/dosing" },
   { icon: Wrench, label: "Maintenance" },
   { icon: Fish, label: "Livestock", path: "/livestock" },
   { icon: BarChart3, label: "Analysis" },
