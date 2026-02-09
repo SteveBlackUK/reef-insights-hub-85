@@ -15,7 +15,7 @@ const navItems = [
   { icon: Wrench, label: "Maintenance" },
   { icon: Fish, label: "Livestock", path: "/livestock" },
   { icon: BarChart3, label: "Analysis" },
-  { icon: FlaskConical, label: "ICP Tests" },
+  { icon: FlaskConical, label: "ICP Tests", path: "/icp-tests" },
   { icon: Container, label: "Tanks" },
   { icon: Cpu, label: "Devices" },
 ];
