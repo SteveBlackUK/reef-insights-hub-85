@@ -2,17 +2,18 @@ import { Home, PenLine, ListTodo, Cog, Droplets, Wrench, Fish, BarChart3, FlaskC
 import logo from "@/assets/logo-bubbles-final.png";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 
 const navItems = [
-  { icon: Home, label: "Home", active: true },
+  { icon: Home, label: "Home", path: "/dashboard" },
   { icon: PenLine, label: "Data Editor" },
   { icon: ListTodo, label: "Tasks" },
   { icon: Cog, label: "Equipment" },
   { icon: Droplets, label: "Dosing" },
   { icon: Wrench, label: "Maintenance" },
-  { icon: Fish, label: "Livestock" },
+  { icon: Fish, label: "Livestock", path: "/livestock" },
   { icon: BarChart3, label: "Analysis" },
   { icon: FlaskConical, label: "ICP Tests" },
   { icon: Container, label: "Tanks" },
@@ -24,7 +25,12 @@ const bottomItems = [
   { icon: Users, label: "Admin: Users" },
 ];
 
-const SidebarContent = () => (
+interface SidebarContentProps {
+  activePage: string;
+  onNavigate: (path: string) => void;
+}
+
+const SidebarContent = ({ activePage, onNavigate }: SidebarContentProps) => (
   <>
     <div className="flex items-center gap-0.5 px-5 py-4">
       <img src={logo} alt="Reef Data Hub" className="h-7 w-7 -mr-0.5" />
@@ -34,9 +40,10 @@ const SidebarContent = () => (
       {navItems.map((item) => (
         <button
           key={item.label}
+          onClick={() => item.path && onNavigate(item.path)}
           className={cn(
             "flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-            item.active
+            item.label === activePage
               ? "bg-primary/15 text-primary"
               : "text-secondary-foreground/60 hover:bg-primary/5 hover:text-secondary-foreground"
           )}
@@ -60,8 +67,18 @@ const SidebarContent = () => (
   </>
 );
 
-const DashboardSidebar = () => {
+interface DashboardSidebarProps {
+  activePage?: string;
+}
+
+const DashboardSidebar = ({ activePage = "Home" }: DashboardSidebarProps) => {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleNavigate = (path: string) => {
+    navigate(path);
+    setOpen(false);
+  };
 
   return (
     <>
@@ -76,7 +93,7 @@ const DashboardSidebar = () => {
           <SheetContent side="left" className="w-56 bg-secondary p-0 border-r border-border/50">
             <SheetTitle className="sr-only">Navigation</SheetTitle>
             <div className="flex h-full flex-col">
-              <SidebarContent />
+              <SidebarContent activePage={activePage} onNavigate={handleNavigate} />
             </div>
           </SheetContent>
         </Sheet>
@@ -88,7 +105,7 @@ const DashboardSidebar = () => {
 
       {/* Desktop sidebar */}
       <aside className="fixed left-0 top-0 z-30 hidden h-screen w-56 flex-col border-r border-border/50 bg-secondary lg:flex">
-        <SidebarContent />
+        <SidebarContent activePage={activePage} onNavigate={handleNavigate} />
       </aside>
     </>
   );
