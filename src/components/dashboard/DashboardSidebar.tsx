@@ -10,7 +10,7 @@ const navItems = [
   { icon: Home, label: "Home", path: "/dashboard" },
   { icon: PenLine, label: "Data Editor" },
   { icon: ListTodo, label: "Tasks" },
-  { icon: Cog, label: "Equipment" },
+  { icon: Cog, label: "Equipment", path: "/equipment" },
   { icon: Droplets, label: "Dosing", path: "/dosing" },
   { icon: Wrench, label: "Maintenance" },
   { icon: Fish, label: "Livestock", path: "/livestock" },
