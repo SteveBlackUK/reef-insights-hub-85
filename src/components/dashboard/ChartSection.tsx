@@ -75,7 +75,7 @@ const ChartHeader = ({
     </div>
     <div className="flex items-center gap-1">
       {onToggle && (
-        <Button size="icon" variant="ghost" className="h-8 w-8 text-muted-foreground" onClick={onToggle} title={expanded ? "Collapse" : "Expand"}>
+        <Button size="icon" variant="ghost" className="h-8 w-8 text-muted-foreground hidden lg:inline-flex" onClick={onToggle} title={expanded ? "Collapse" : "Expand"}>
           {expanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
         </Button>
       )}
