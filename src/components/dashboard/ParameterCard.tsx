@@ -62,22 +62,38 @@ const ParameterCard = ({ label, value, unit, status, sparkline, timestamp }: Par
   return (
     <div
       className={cn(
-        "rounded-xl border bg-card p-4 transition-all duration-200",
+        "rounded-xl border bg-card transition-all duration-200",
+        "p-2.5 sm:p-4",
         config.border
       )}
     >
-      <div className="flex items-center justify-between">
-        <span className="text-sm font-medium text-muted-foreground">{label}</span>
-        {config.icon}
+      {/* Mobile: single row with label left, value right */}
+      <div className="flex items-center justify-between sm:hidden">
+        <span className="text-xs font-medium text-muted-foreground">{label}</span>
+        <div className="flex items-baseline gap-1">
+          <span className={cn("font-heading text-base font-bold", config.valueColor)}>{value}</span>
+          <span className="text-[10px] text-muted-foreground">{unit}</span>
+        </div>
       </div>
-      <div className="mt-2 flex items-baseline gap-1.5">
-        <span className={cn("font-heading text-2xl font-bold", config.valueColor)}>{value}</span>
-        <span className="text-sm text-muted-foreground">{unit}</span>
-      </div>
-      <div className="mt-3">
+      <div className="mt-1.5 sm:hidden">
         <MiniSparkline data={sparkline} status={status} />
       </div>
-      <p className="mt-2 text-xs text-muted-foreground/60">{timestamp}</p>
+
+      {/* Desktop: original layout */}
+      <div className="hidden sm:block">
+        <div className="flex items-center justify-between">
+          <span className="text-sm font-medium text-muted-foreground">{label}</span>
+          {config.icon}
+        </div>
+        <div className="mt-2 flex items-baseline gap-1.5">
+          <span className={cn("font-heading text-2xl font-bold", config.valueColor)}>{value}</span>
+          <span className="text-sm text-muted-foreground">{unit}</span>
+        </div>
+        <div className="mt-3">
+          <MiniSparkline data={sparkline} status={status} />
+        </div>
+        <p className="mt-2 text-xs text-muted-foreground/60">{timestamp}</p>
+      </div>
     </div>
   );
 };
