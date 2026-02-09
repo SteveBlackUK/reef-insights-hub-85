@@ -18,7 +18,7 @@ const categoryColors: Record<string, string> = {
 };
 
 const LivestockTimeline = ({ items, onSelect }: Props) => {
-  const { months, startDate, totalMonths, grouped } = useMemo(() => {
+  const { months, startDate, totalMonths, sortedItems } = useMemo(() => {
     const allDates = items.map((i) => parseISO(i.acquisitionDate));
     const now = new Date();
     allDates.push(now);
@@ -32,14 +32,10 @@ const LivestockTimeline = ({ items, onSelect }: Props) => {
       monthLabels.push({ label: format(d, "MMM yy"), date: d });
     }
 
-    // Group by category
-    const categories = [...new Set(items.map((i) => i.category))].sort();
-    const grouped = categories.map((cat) => ({
-      category: cat,
-      items: items.filter((i) => i.category === cat),
-    }));
+    // Sort by acquisition date (earliest first)
+    const sortedItems = [...items].sort((a, b) => a.acquisitionDate.localeCompare(b.acquisitionDate));
 
-    return { months: monthLabels, startDate: start, totalMonths: total, grouped };
+    return { months: monthLabels, startDate: start, totalMonths: total, sortedItems };
   }, [items]);
 
   const getBarStyle = (item: LivestockItem) => {
@@ -53,76 +49,65 @@ const LivestockTimeline = ({ items, onSelect }: Props) => {
   };
 
   return (
-    <div className="space-y-6">
-      {grouped
-        .filter((g) => g.items.length > 0)
-        .map((group) => (
-          <div key={group.category}>
-            <h3 className="font-heading text-sm font-semibold text-foreground mb-3">
-              {group.category}
-            </h3>
-            <div className="relative overflow-x-auto">
-              {/* Month header */}
-              <div className="flex border-b border-border/40 mb-1 min-w-[800px]">
-                {months.map((m, i) => (
-                  <div
-                    key={i}
-                    className="text-[10px] text-muted-foreground shrink-0"
-                    style={{ width: `${100 / totalMonths}%` }}
-                  >
-                    {i % 2 === 0 ? m.label : ""}
-                  </div>
-                ))}
-              </div>
-
-              {/* Bars */}
-              <div className="space-y-1.5 min-w-[800px]">
-                {group.items.map((item) => {
-                  const style = getBarStyle(item);
-                  const colors = categoryColors[item.category] || "bg-primary/15 text-primary border-primary/30";
-                  return (
-                    <div key={item.id} className="relative h-8 flex items-center">
-                      {/* Grid lines */}
-                      <div className="absolute inset-0 flex pointer-events-none">
-                        {months.map((_, i) => (
-                          <div
-                            key={i}
-                            className="border-l border-border/20 h-full shrink-0"
-                            style={{ width: `${100 / totalMonths}%` }}
-                          />
-                        ))}
-                      </div>
-                      {/* Bar */}
-                      <button
-                        onClick={() => onSelect(item)}
-                        className={`absolute h-6 rounded-md flex items-center px-2 gap-1.5 text-xs font-medium border cursor-pointer hover:brightness-110 transition ${
-                          item.status === "Deceased" ? "opacity-50" : ""
-                        } ${colors}`}
-                        style={{ left: style.left, width: style.width, minWidth: 80 }}
-                        title={`${item.commonName} — ${format(parseISO(item.acquisitionDate), "MMM yyyy")} → ${
-                          item.status === "Deceased" ? "Deceased" : "Present"
-                        }`}
-                      >
-                        <span className="truncate">
-                          {item.commonName}
-                          {item.quantity > 1 && ` (×${item.quantity})`}
-                        </span>
-                        {item.status === "Deceased" && (
-                          <Badge
-                            variant="outline"
-                            className="text-[9px] px-1 py-0 shrink-0 border-destructive/40 text-destructive"
-                          >
-                            Deceased
-                          </Badge>
-                        )}
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+    <div className="relative overflow-x-auto">
+      {/* Month header */}
+      <div className="flex border-b border-border/40 mb-1 min-w-[800px]">
+        {months.map((m, i) => (
+          <div
+            key={i}
+            className="text-[10px] text-muted-foreground shrink-0"
+            style={{ width: `${100 / totalMonths}%` }}
+          >
+            {i % 2 === 0 ? m.label : ""}
           </div>
         ))}
+      </div>
+
+      {/* Bars */}
+      <div className="space-y-1.5 min-w-[800px]">
+        {sortedItems.map((item) => {
+          const style = getBarStyle(item);
+          const colors = categoryColors[item.category] || "bg-primary/15 text-primary border-primary/30";
+          return (
+            <div key={item.id} className="relative h-8 flex items-center">
+              {/* Grid lines */}
+              <div className="absolute inset-0 flex pointer-events-none">
+                {months.map((_, i) => (
+                  <div
+                    key={i}
+                    className="border-l border-border/20 h-full shrink-0"
+                    style={{ width: `${100 / totalMonths}%` }}
+                  />
+                ))}
+              </div>
+              {/* Bar */}
+              <button
+                onClick={() => onSelect(item)}
+                className={`absolute h-6 rounded-md flex items-center px-2 gap-1.5 text-xs font-medium border cursor-pointer hover:brightness-110 transition ${
+                  item.status === "Deceased" ? "opacity-50" : ""
+                } ${colors}`}
+                style={{ left: style.left, width: style.width, minWidth: 80 }}
+                title={`${item.commonName} — ${format(parseISO(item.acquisitionDate), "MMM yyyy")} → ${
+                  item.status === "Deceased" ? "Deceased" : "Present"
+                }`}
+              >
+                <span className="truncate">
+                  {item.commonName}
+                  {item.quantity > 1 && ` (×${item.quantity})`}
+                </span>
+                {item.status === "Deceased" && (
+                  <Badge
+                    variant="outline"
+                    className="text-[9px] px-1 py-0 shrink-0 border-destructive/40 text-destructive"
+                  >
+                    Deceased
+                  </Badge>
+                )}
+              </button>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
