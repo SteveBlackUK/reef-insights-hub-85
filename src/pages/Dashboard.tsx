@@ -21,23 +21,26 @@ const Dashboard = () => {
     <div className="flex min-h-screen bg-background">
       <DashboardSidebar />
 
-      <main className="ml-56 flex-1 px-8 py-6">
+      <main className="flex-1 px-4 py-4 pt-18 sm:px-6 lg:ml-56 lg:px-8 lg:py-6 lg:pt-6">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <h1 className="font-heading text-3xl font-bold text-foreground">Dashboard</h1>
+          <h1 className="font-heading text-2xl font-bold text-foreground sm:text-3xl">Dashboard</h1>
           <div className="flex items-center gap-2">
             <Button size="icon" variant="ghost" className="h-9 w-9 text-muted-foreground">
               <Download className="h-4 w-4" />
             </Button>
-            <Button variant="outline" className="gap-2 text-sm">
+            <Button variant="outline" className="hidden gap-2 text-sm sm:flex">
               <RefreshCw className="h-4 w-4" />
               Refresh Data
+            </Button>
+            <Button size="icon" variant="outline" className="sm:hidden">
+              <RefreshCw className="h-4 w-4" />
             </Button>
           </div>
         </div>
 
         {/* Parameter Cards */}
-        <div className="mt-6 grid grid-cols-4 gap-4">
+        <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:gap-4">
           {parameters.map((p) => (
             <ParameterCard key={p.label} {...p} />
           ))}
