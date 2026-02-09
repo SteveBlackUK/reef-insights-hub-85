@@ -9,6 +9,7 @@ import Livestock from "./pages/Livestock";
 import ICPTests from "./pages/ICPTests";
 import ICPTestDetail from "./pages/ICPTestDetail";
 import Dosing from "./pages/Dosing";
+import Analysis from "./pages/Analysis";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/icp-tests" element={<ICPTests />} />
           <Route path="/icp-tests/:id" element={<ICPTestDetail />} />
           <Route path="/dosing" element={<Dosing />} />
+          <Route path="/analysis" element={<Analysis />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
