@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import LivestockTable from "@/components/livestock/LivestockTable";
 import LivestockCards from "@/components/livestock/LivestockCards";
+import LivestockTimeline from "@/components/livestock/LivestockTimeline";
 import LivestockDialog from "@/components/livestock/LivestockDialog";
 import { mockLivestock, LivestockItem } from "@/components/livestock/LivestockData";
 import { Button } from "@/components/ui/button";
@@ -13,12 +14,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus, Search, Fish } from "lucide-react";
+import { Plus, Search, Fish, LayoutList, GanttChart } from "lucide-react";
 
 const Livestock = () => {
   const [items, setItems] = useState<LivestockItem[]>(mockLivestock);
   const [statusFilter, setStatusFilter] = useState("all");
   const [search, setSearch] = useState("");
+  const [view, setView] = useState<"list" | "timeline">("list");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editItem, setEditItem] = useState<LivestockItem | null>(null);
 
@@ -85,8 +87,8 @@ const Livestock = () => {
           </Button>
         </div>
 
-        {/* Filters */}
-        <div className="mt-5 flex flex-col sm:flex-row gap-3">
+        {/* Filters + View toggle */}
+        <div className="mt-5 flex flex-col sm:flex-row gap-3 items-start sm:items-center">
           <Select value={statusFilter} onValueChange={setStatusFilter}>
             <SelectTrigger className="w-full sm:w-40 bg-card">
               <SelectValue placeholder="All Status" />
@@ -106,17 +108,44 @@ const Livestock = () => {
               className="pl-9 bg-card"
             />
           </div>
+          {/* View toggle */}
+          <div className="flex items-center gap-1 bg-muted rounded-lg p-1 shrink-0">
+            <Button
+              variant={view === "list" ? "default" : "ghost"}
+              size="sm"
+              className="h-7 px-2.5 gap-1.5 text-xs"
+              onClick={() => setView("list")}
+            >
+              <LayoutList className="h-3.5 w-3.5" />
+              List
+            </Button>
+            <Button
+              variant={view === "timeline" ? "default" : "ghost"}
+              size="sm"
+              className="h-7 px-2.5 gap-1.5 text-xs"
+              onClick={() => setView("timeline")}
+            >
+              <GanttChart className="h-3.5 w-3.5" />
+              Timeline
+            </Button>
+          </div>
         </div>
 
         {/* Content */}
         <div className="mt-5">
-          <LivestockTable
-            items={filtered}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            onMarkDeceased={handleMarkDeceased}
-          />
-          <LivestockCards items={filtered} onSelect={handleEdit} />
+          {view === "list" ? (
+            <>
+              <LivestockTable
+                items={filtered}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                onMarkDeceased={handleMarkDeceased}
+              />
+              <LivestockCards items={filtered} onSelect={handleEdit} />
+            </>
+          ) : (
+            <LivestockTimeline items={filtered} onSelect={handleEdit} />
+          )}
         </div>
 
         {/* Dialog */}
