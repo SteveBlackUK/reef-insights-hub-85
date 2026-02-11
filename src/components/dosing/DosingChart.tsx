@@ -23,12 +23,12 @@ const DosingChart = () => (
           <YAxis tick={axisTick} axisLine={false} tickLine={false} label={{ value: "Volume (mL)", angle: -90, position: "insideLeft", style: { fontSize: 11, fill: "hsl(210,20%,50%)" } }} width={55} />
           <Tooltip contentStyle={tooltipStyle} />
           <Legend verticalAlign="bottom" iconType="square" wrapperStyle={{ fontSize: 12, paddingTop: 8 }} />
-          <Bar dataKey="alkalinity" name="Alkalinity" fill="hsl(210, 80%, 50%)" stackId="a" />
-          <Bar dataKey="calciumMg" name="Calcium-Mg" fill="hsl(145, 65%, 40%)" stackId="a" />
-          <Bar dataKey="magnesium" name="Magnesium" fill="hsl(210, 15%, 70%)" stackId="a" />
-          <Bar dataKey="nitrate" name="Nitrate" fill="hsl(210, 15%, 55%)" stackId="a" />
-          <Bar dataKey="rzPartA" name="RZ Part A" fill="hsl(210, 10%, 60%)" stackId="a" />
-          <Bar dataKey="rzPartC" name="RZ Part C" fill="hsl(210, 10%, 45%)" stackId="a" />
+          <Bar dataKey="alkalinity" name="Alkalinity" fill="hsl(185, 72%, 40%)" stackId="a" />
+          <Bar dataKey="calciumMg" name="Calcium-Mg" fill="hsl(175, 80%, 45%)" stackId="a" />
+          <Bar dataKey="magnesium" name="Magnesium" fill="hsl(210, 55%, 45%)" stackId="a" />
+          <Bar dataKey="nitrate" name="Nitrate" fill="hsl(12, 80%, 60%)" stackId="a" />
+          <Bar dataKey="rzPartA" name="RZ Part A" fill="hsl(195, 60%, 30%)" stackId="a" />
+          <Bar dataKey="rzPartC" name="RZ Part C" fill="hsl(210, 60%, 15%)" stackId="a" />
         </BarChart>
       </ResponsiveContainer>
     </div>

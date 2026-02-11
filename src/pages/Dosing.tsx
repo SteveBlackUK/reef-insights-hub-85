@@ -7,11 +7,13 @@ import { Button } from "@/components/ui/button";
 import { Calendar, ClipboardList, FlaskConical } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 type Tab = "events" | "schedules";
 
 const Dosing = () => {
   const [tab, setTab] = useState<Tab>("events");
+  const navigate = useNavigate();
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -26,8 +28,8 @@ const Dosing = () => {
               <ClipboardList className="h-4 w-4" /> Create Dosing Schedule
             </Button>
             <LogDataDialog />
-            <Button variant="outline" className="gap-2 text-sm">
-              <FlaskConical className="h-4 w-4" /> Trace Dosing Batches
+            <Button variant="outline" className="gap-2 text-sm" onClick={() => navigate("/trace-dosing")}>
+              <FlaskConical className="h-4 w-4" /> Trace Dosing Calculator
             </Button>
           </div>
         </div>
