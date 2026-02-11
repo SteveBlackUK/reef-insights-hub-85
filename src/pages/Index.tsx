@@ -1,6 +1,6 @@
 import Hero from "@/components/Hero";
 import Features from "@/components/Features";
-import InsightsPreview from "@/components/InsightsPreview";
+import AppPreview from "@/components/AppPreview";
 import { CTA, Footer } from "@/components/CTAFooter";
 
 const Index = () => {
@@ -8,7 +8,7 @@ const Index = () => {
     <div className="min-h-screen">
       <Hero />
       <Features />
-      <InsightsPreview />
+      <AppPreview />
       <CTA />
       <Footer />
     </div>
